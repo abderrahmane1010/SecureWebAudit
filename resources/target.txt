@@ -1,0 +1,14 @@
+http://sudo.co.il/xss/level0.php
+http://sudo.co.il/xss/level1.php
+http://sudo.co.il/xss/level2.php
+http://sudo.co.il/xss/level3.php
+http://sudo.co.il/xss/level4.php
+http://sudo.co.il/xss/level5-1.php?p=your_payload
+http://sudo.co.il/xss/level5-2.php?p=your_payload
+http://sudo.co.il/xss/level6.php?p=your_payload
+http://sudo.co.il/xss/level7.php?p=your_payload
+http://sudo.co.il/xss/level8.php?p=your_payload
+http://sudo.co.il/xss/level8-1.php?p=your_payload
+http://sudo.co.il/xss/level9.php?p=your_payload
+http://sudo.co.il/xss/level10.php?p=your_payload
+http://sudo.co.il/xss/level11.php?p=your_payload

@@ -1,0 +1,30 @@
+# Fichiers de byte-code compilés Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Dossiers et fichiers de distribution / build
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Environnements virtuels
+venv/
+env/
+ENV/
+myenv*
+
+# Fichiers de cache ou de logs
+*.log
+.cache
+
+# Fichiers de configuration IDE spécifiques (par exemple pour PyCharm, VSCode, etc.)
+.idea/
+.vscode/
+*.swp
+
+# Fichiers de base de données SQLite (si utilisés)
+*.db
+*.sqlite3
