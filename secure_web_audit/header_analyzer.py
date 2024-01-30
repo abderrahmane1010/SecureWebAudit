@@ -63,6 +63,7 @@ class HeaderAnalyzer :
         self.risk_analysis("Medium")
         self.risk_analysis("Low")
         self.risk_analysis("Information Leak")
+        self.csp_analysis()
         
     def ishere(self, header):
         return header in self.headers
@@ -103,5 +104,27 @@ class HeaderAnalyzer :
                     print(" + ",field)
         return set_cookie
     
+    def csp_analysis(self):
+        """ 
+        Structure : 
+         Content-Security-Policy: <policy-directive>; <policy-directive>
+         <policy-directive> :  <directive> <value>
+         """
+        
+        print(colorize(" [ CSP ]","green"))
+        if self.ishere("Content-Security-Policy"):
+            csp = self.get_header("Content-Security-Policy")
+            list_csp = csp.split(";")
+            for i in list_csp :
+                csp_directive = i.split(" ")[0]
+                print(colorize(csp_directive,"error"))
+                csp_value = i.split(" ")[1:]
+                # print(csp_value)
+                print(colorize(" ".join(csp_value),"green"))
+            # print(colorize(csp,"error"))
+        else:
+            print(colorize("  CSP is not here ","info"))
+            
     def __str__(self):
         return "\n".join([f"{c}: {v}" for c, v in self.headers.items()])
+ 
