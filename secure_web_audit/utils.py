@@ -73,6 +73,10 @@ def banner(url):
     print("=" * 72)
     print("")
     
+
+def info_value(title,text):
+    print(colorize(title,"info") + str(text))
+    
     
 def is_packet_suspicious(packet):
     # Logique simplifiée pour déterminer si un paquet est suspect
