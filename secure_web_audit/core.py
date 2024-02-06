@@ -1,6 +1,8 @@
 from .detector import detect_anomalies
 from .analyzer import analyze_packets
 from .header_analyzer import HeaderAnalyzer
+from .csrf_analyzer import CSRFAnalyzer
+from .webanalyzer import WebAnalyzer
 from secure_web_audit.webpagecontent_analyzer import WebPageContent
 from .xss_analyzer import XSSAnalyzer
 from .utils import *
@@ -19,12 +21,20 @@ def run():
     
     if args.url :
         banner(args.url)
-        # Header Analysis :
+        """ Header Analysis """
         # HeaderAnalyzer(args.url)
         
-        # XSS analyzer
+        """ XSS Analysis """
         # XSSAnalyzer(args.url)
-        WebPageContent(args.url)
+        
+        """ Web page content - Information Gathering"""
+        # WebPageContent(args.url)
+        
+        """ CSRF Analysis """
+        # CSRFAnalyzer(args.url)
+        
+        """ tests """
+        WebAnalyzer(args.url, "GET")
 
     if args.group_url :
         if Path(args.group_url).is_file():

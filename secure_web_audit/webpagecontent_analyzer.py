@@ -17,7 +17,7 @@ class WebPageContent :
             # print(self.get_all_comments())
             
             # Meta
-            self.get_all_meta()
+            # self.get_all_meta()
             
         except requests.exceptions.HTTPError as errh:
             print(colorize("Http Error:","error"),errh)
