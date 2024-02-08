@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 from .detector import detect_anomalies
 from .analyzer import analyze_packets
 from .header_analyzer import HeaderAnalyzer
@@ -33,7 +35,7 @@ def run():
         """ CSRF Analysis """
         # CSRFAnalyzer(args.url)
         
-        """ tests """
+        """ tests / Brute force """
         WebAnalyzer(args.url, "GET")
 
     if args.group_url :

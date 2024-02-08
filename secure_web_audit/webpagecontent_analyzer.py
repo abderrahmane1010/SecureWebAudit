@@ -13,9 +13,10 @@ class WebPageContent :
             self.soup = BeautifulSoup(self.response.text, 'html.parser')
             
             # Comments
-            # print(colorize(str(len(self.get_all_comments())) + " comments", "info"))
+            print(colorize(str(len(self.get_all_comments())) + " comments", "info"))
             # print(self.get_all_comments())
-            
+            for comment in self.get_all_comments():
+                print(colorize(f'{comment}',"green"))
             # Meta
             # self.get_all_meta()
             

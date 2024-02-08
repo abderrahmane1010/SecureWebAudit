@@ -2,6 +2,7 @@ from .utils import *
 import requests
 import json
 from bs4 import BeautifulSoup, Comment
+from .helpers.headers_utils import *
 from urllib.parse import urlparse, parse_qs, urljoin
 
 # https://requests.readthedocs.io/en/latest/
@@ -20,10 +21,24 @@ class WebAnalyzer :
             res = requests.request(method=method, url=self.url, params={"name":"alo"})
             self.soup = BeautifulSoup(res.text, 'html.parser')
             
+            """ Get all forms in the page """
             # print(self.get_form_data())
-            # print(colorize(json.dumps(self.get_form_data(), indent=4),"info"))
+            print(colorize(json.dumps(self.get_form_data(), indent=4),"info"))
             
-            self.brute_force_form_file(0, "resources/38650-username-sktorrent.txt")
+            """ Send a request """
+            # response = self.send_req_to_form(0,"admin")
+            
+            """ Example of brute force attack """
+            # self.brute_force_form_file(0, "resources/38650-username-sktorrent.txt")
+            
+            """ Example of treating a response """
+            res = self.send_req_to_form(0,"test")
+            write_headers(res)
+            res1 = self.send_req_to_form(0,"test1")
+            write_headers(res1)
+            """ Headers difference """
+            headers_diff(res,res1)
+            
             # self.soup = BeautifulSoup(self.response.text, 'html.parser')
         except requests.exceptions.HTTPError as errh:
             print(colorize("Http Error:","error"),errh)
@@ -72,7 +87,7 @@ class WebAnalyzer :
         # print(colorize(f'Send request to form {form["id"]}',"green"))
         
         form_url = urljoin(self.url, form["action"])
-        data = {field["name"]: data_name for field in form["fields"]}
+        data = {field["name"]: data_name for field in form["fields"] if field["type"] != 'hidden'}
         print(data)
         if form["method"] == "POST":
             response1 = requests.post(form_url, data=data)
