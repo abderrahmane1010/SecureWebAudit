@@ -23,7 +23,6 @@ class XSSAnalyzer :
         for form in forms:
             method = form.get('method', 'get').lower()  
             action = form.get('action') or self.url
-            # print(f"Form found with method: {method}, action: {action}")
             form_url = urljoin(self.url, action)
             
             data = {input_tag.get('name'): xss_test_script for input_tag in form.find_all('input') if input_tag.get('name')}

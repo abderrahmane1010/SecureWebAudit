@@ -2,6 +2,7 @@ from .utils import *
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse, parse_qs, urljoin
+from .webanalyzer import WebAnalyzer
 
 class CSRFAnalyzer :
 
@@ -32,15 +33,29 @@ class CSRFAnalyzer :
         "csrf-token", "x-csrf-token", "xsrf-token", "x-xsrf-token", "csrfp-token",
         "anti-csrf-token", "x-csrf-header", "x-xsrf-header", "x-csrf-protection"
     ]
-    def __init__(self, url):
-        self.url = url 
-        self.token_search_in_forms()
+    def __init__(self, url, method):
+        self.url = url
+        self.method = method 
+        self.web_analyzer = WebAnalyzer(self.url, self.method)
+        # self.token_search_in_forms()
+        
+        ##### Is the field exists ############
+        
+        
+        # res = self.is_token_exist_in_form(0)
+        # if res == 1:
+        #     print("there is a hidden field")
+        # elif res == 2:
+        #     print("there is a specified token field")
+        # else:
+        #     print("there is no csrf protection")
+        # self.is_token_exist_in_form(0)
     
     
     def token_search_in_forms(self):
         """ Look if the token exists in all forms ?"""
         try:
-            response = requests.get(self.url)
+            response = requests.request(method=self.method, url=self.url)
             soup = BeautifulSoup(response.text, 'html.parser')
             forms = soup.find_all('form')
             if len(forms) == 0:
@@ -72,3 +87,15 @@ class CSRFAnalyzer :
             print(colorize("Timeout Error:","error"),errt)
         except requests.exceptions.RequestException as err:
             print(colorize("Error:","error"),err)
+
+
+    def is_token_exist_in_form(self, index):
+        form = self.web_analyzer.get_form_data()[index]
+        for field in form["fields"]:
+            if field["name"].lower() in self.TOKEN_FORM_STRINGS:
+                return 2 # The field exists.
+            elif field["type"].lower() == "hidden":
+                return 1 # There is a hidden field, maybe for that.
+            else:
+                pass
+        return 0 # There is neither a token field nor a hidden one

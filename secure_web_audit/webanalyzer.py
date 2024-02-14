@@ -23,8 +23,8 @@ class WebAnalyzer :
             
             """ Get all forms in the page """
             # print(self.get_form_data())
-            print(colorize(json.dumps(self.get_form_data(), indent=4),"info"))
-            
+            # print(colorize(json.dumps(self.get_form_data(), indent=4),"info"))
+     
             """ Send a request """
             # response = self.send_req_to_form(0,"admin")
             
@@ -32,13 +32,23 @@ class WebAnalyzer :
             # self.brute_force_form_file(0, "resources/38650-username-sktorrent.txt")
             
             """ Example of treating a response """
-            res = self.send_req_to_form(0,"test")
-            write_headers(res)
-            res1 = self.send_req_to_form(0,"test1")
-            write_headers(res1)
-            """ Headers difference """
-            headers_diff(res,res1)
+            # res = self.send_req_to_form(0,"test")
+            # write_headers(res)
+            # res1 = self.send_req_to_form(0,"test1")
+            # write_headers(res1)
             
+            
+            """ Example of treating a response (with two datas)"""
+            res = self.send_two_data(0,"abtygtb","tbaaba")
+            write_headers(res)
+            res1 = self.send_two_data(0,"test","test")
+            write_headers(res1)
+            # """ Headers difference """
+            # headers_diff(res,res1)
+            # """ HTML Content difference """
+            # html_content_diff(res,res1)
+            
+                        
             # self.soup = BeautifulSoup(self.response.text, 'html.parser')
         except requests.exceptions.HTTPError as errh:
             print(colorize("Http Error:","error"),errh)
@@ -52,9 +62,25 @@ class WebAnalyzer :
             print(colorize("Error:","error"),err)
 
 
+        """
+        [
+            {
+                "id": "Form_1",
+                "method": "POST",
+                "action": "search.php?test=query",
+                "fields": [
+                    {
+                        "name": "searchFor",
+                        "type": "text"
+                    }
+                ]
+            }
+        ]
 
+        """
     def get_form_data(self):
             forms = self.soup.find_all('form')
+            
             form_struct = []
 
             for form in forms:
@@ -65,8 +91,6 @@ class WebAnalyzer :
                     'action': form.get('action', ''),
                     'fields': []
                 }
-
-                # print(f"[Form {form_id}] Method: {form_info['method']} - Action: {form_info['action']}")
 
                 for inp in form.find_all('input'):
                     if inp.get('type') and inp.get('type').lower() != 'submit':
@@ -84,7 +108,7 @@ class WebAnalyzer :
             
     def send_req_to_form(self, index, data_name):
         form = self.get_form_data()[index]
-        # print(colorize(f'Send request to form {form["id"]}',"green"))
+        
         
         form_url = urljoin(self.url, form["action"])
         data = {field["name"]: data_name for field in form["fields"] if field["type"] != 'hidden'}
@@ -95,9 +119,17 @@ class WebAnalyzer :
             response1 = requests.get(form_url, params=data)
         
         return response1
-        # html_content = BeautifulSoup(response1.text, 'html.parser')
-        
-        # print(colorize(f'{hash(str(response1.text))}',"magenta"))
+    
+    def send_two_data(self, index, text1, text2):
+        form = self.get_form_data()[index]
+        form_url = urljoin(self.url, form["action"])
+        data = {form['fields'][0]['name'] : text1, form['fields'][1]['name'] : text2}
+        print(data)
+        if form["method"] == "POST":
+            response = requests.post(form_url, data=data)
+        elif form["method"] == "GET":
+            response = requests.get(form_url, params=data)
+        return response
 
     def brute_force_form_file(self, index, file):
         with open(file, 'r', encoding='latin-1') as file:
