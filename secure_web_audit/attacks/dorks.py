@@ -20,6 +20,9 @@ class GoogleDorks :
         self.gitfolder()
         self.exposed_files()
         self.sqlerrors()
+        self.php_errors()
+        self.login_pages()
+        self.open_redirects()
 
     def run_dorks(self, payload):
         # ua = UserAgent()
@@ -95,3 +98,21 @@ class GoogleDorks :
         sql_errors = 'site:'+self.url+' AND (intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:"Warning: mysql_query()" | intext:"Warning: pg_connect()")'
         dorks_banner(sql_errors,"SQL errors")
         self.run_dorks(sql_errors)
+        
+    def php_errors(self):
+        php_error1 = 'site:'+self.url+' AND ("PHP Parse error" | "PHP Warning" | "PHP Error")'
+        dorks_banner(php_error1, "PHP errors")
+        self.run_dorks(php_error1)
+        php_error2 = 'site:'+self.url+' "Index of" inurl:phpmyadmin'
+        dorks_banner(php_error2, "PHP errors 2")
+        self.run_dorks(php_error2)
+        
+    def login_pages(self):
+        login = "site:"+self.url+" AND (inurl:signup | inurl:login | inurl:register | intitle:Signup)"
+        dorks_banner(login, "Login pages discovery")
+        self.run_dorks(login)
+    
+    def open_redirects(self):
+        open_redir = "site:"+self.url+" AND (inurl:redir | inurl:url | inurl:redirect | inurl:return | inurl:location | inurl:next | inurl:dest | inurl:src=http | inurl:r=http)"
+        dorks_banner(open_redir, "Open redirects")
+        self.run_dorks(open_redir)
