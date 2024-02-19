@@ -14,15 +14,16 @@ class GoogleDorks :
         self.url = url
         self.ua = UserAgent()
         # self.subdomains_discovery()
-        self.config_files()
-        self.db_files()
-        self.backup_files()
-        self.gitfolder()
-        self.exposed_files()
-        self.sqlerrors()
-        self.php_errors()
-        self.login_pages()
-        self.open_redirects()
+        # self.config_files()
+        # self.db_files()
+        # self.backup_files()
+        # self.gitfolder()
+        # self.exposed_files()
+        # self.sqlerrors()
+        # self.php_errors()
+        # self.login_pages()
+        # self.open_redirects()
+        self.sql_injection_finder()
 
     def run_dorks(self, payload):
         # ua = UserAgent()
@@ -116,3 +117,18 @@ class GoogleDorks :
         open_redir = "site:"+self.url+" AND (inurl:redir | inurl:url | inurl:redirect | inurl:return | inurl:location | inurl:next | inurl:dest | inurl:src=http | inurl:r=http)"
         dorks_banner(open_redir, "Open redirects")
         self.run_dorks(open_redir)
+        
+    def sql_injection_finder(self):
+        with open("resources/dorks_payloads.txt", 'r') as file:
+            for ligne in file:
+                query = "site:"+self.url+" inurl="+ligne
+                print(query)
+                try:
+                    for results in search(query, lang="en", user_agent=self.ua.random):
+                            if results:
+                                print(query)
+                                print(results)
+                                
+                        # time.sleep(random.uniform(1, 15))
+                except Exception as e:
+                    print(e)
