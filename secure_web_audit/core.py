@@ -7,6 +7,7 @@ from .csrf_analyzer import CSRFAnalyzer
 from .webanalyzer import WebAnalyzer
 from secure_web_audit.webpagecontent_analyzer import WebPageContent
 from .xss_analyzer import XSSAnalyzer
+from .attacks.dorks import GoogleDorks
 from .utils import *
 from pathlib import Path
 import argparse
@@ -36,7 +37,10 @@ def run():
         # CSRFAnalyzer(args.url, "GET")
         
         """ tests / Brute force """
-        WebAnalyzer(args.url, "GET")
+        # WebAnalyzer(args.url, "GET")
+        
+        """ Dorks """
+        GoogleDorks(args.url, "GET")
 
     if args.group_url :
         if Path(args.group_url).is_file():
