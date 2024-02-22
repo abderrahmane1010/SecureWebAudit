@@ -128,3 +128,30 @@ class HeaderAnalyzer :
     def __str__(self):
         return "\n".join([f"{c}: {v}" for c, v in self.headers.items()])
  
+ 
+ 
+ 
+#  import requests
+
+# def guess_framework_from_cookies(url):
+#     try:
+#         response = requests.get(url)
+#         cookies = response.cookies
+
+#         for cookie in cookies:
+#             name = cookie.name.lower()
+#             if 'phpsessid' in name:
+#                 print(f"Le site {url} utilise probablement PHP.")
+#             elif 'asp.net_sessionid' in name:
+#                 print(f"Le site {url} utilise probablement ASP.NET.")
+#             elif 'connect.sid' in name:
+#                 print(f"Le site {url} utilise probablement Express (Node.js).")
+#             # Ajoutez d'autres frameworks en fonction de leurs cookies spécifiques ici
+#             else:
+#                 print(f"Nom de cookie inconnu : {cookie.name}, difficile de déterminer le framework.")
+#     except requests.RequestException as e:
+#         print(f"Erreur lors de la requête : {e}")
+
+# # Testez l'URL de votre choix
+# url = "https://example.com"
+# guess_framework_from_cookies(url)

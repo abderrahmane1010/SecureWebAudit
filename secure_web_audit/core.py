@@ -37,10 +37,10 @@ def run():
         # CSRFAnalyzer(args.url, "GET")
         
         """ tests / Brute force """
-        # WebAnalyzer(args.url, "GET")
+        WebAnalyzer(args.url, "GET")
         
         """ Dorks """
-        GoogleDorks(args.url, "GET")
+        # GoogleDorks(args.url, "GET")
 
     if args.group_url :
         if Path(args.group_url).is_file():

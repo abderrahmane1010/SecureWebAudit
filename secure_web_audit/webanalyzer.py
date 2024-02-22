@@ -39,16 +39,18 @@ class WebAnalyzer :
             
             
             """ Example of treating a response (with two datas)"""
-            res = self.send_two_data(0,"abtygtb","tbaaba")
-            write_headers(res)
-            res1 = self.send_two_data(0,"test","test")
-            write_headers(res1)
+            # res = self.send_two_data(0,"abtygtb","tbaaba")
+            # write_headers(res)
+            # res1 = self.send_two_data(0,"test","test")
+            # write_headers(res1)
             # """ Headers difference """
             # headers_diff(res,res1)
             # """ HTML Content difference """
             # html_content_diff(res,res1)
             
-                        
+            """ Search for information disclosure files"""
+            self.check_info_files()
+            
             # self.soup = BeautifulSoup(self.response.text, 'html.parser')
         except requests.exceptions.HTTPError as errh:
             print(colorize("Http Error:","error"),errh)
@@ -136,3 +138,17 @@ class WebAnalyzer :
             for ligne in file:
                 res = self.send_req_to_form(index, ligne.strip())
                 print(colorize(f'{hash(str(res.text))}',"magenta"))
+                
+
+    def check_info_files(self):
+        file_paths = ["robots.txt", "sitemap.xml", "humans.txt", ".well-known/security.txt", "security.txt"]
+        for file in file_paths:
+            url = f"{self.url}/{file}"
+            try:
+                res = requests.get(url)
+                if res.status_code == 200:
+                    print(colorize(f"Un fichier {file} existe","red"))
+                else:
+                    print(f"le fichier {file} n'existe pas")
+            except requests.RequestException as e:
+                print(f"Erreur lors de la requête pour {url}: {e}")
