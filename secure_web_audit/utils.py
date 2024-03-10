@@ -77,6 +77,12 @@ def dorks_banner(payload, text):
     print(colorize("---" * 24, "green"))
     print(f' #{colorize(text, "blue")} : {payload}')
     print(colorize("---" * 24, "green"))
+
+def banner_analysis(payload, text):
+    print(colorize("+++" * 24, "red"))
+    print(f' {payload} : {colorize(text, "blue")}')
+    print(colorize("+++" * 24, "red"))
+
     
 def info_value(title,text):
     print(colorize(title,"info") + str(text))

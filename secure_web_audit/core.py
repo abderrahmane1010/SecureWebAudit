@@ -7,7 +7,8 @@ from .csrf_analyzer import CSRFAnalyzer
 from .webanalyzer import WebAnalyzer
 from secure_web_audit.webpagecontent_analyzer import WebPageContent
 from .xss_analyzer import XSSAnalyzer
-from .attacks.dorks import GoogleDorks
+from .attacks.dorks import *
+from .attacks.webserdetection import *
 from .utils import *
 from pathlib import Path
 import argparse
@@ -15,6 +16,7 @@ import argparse
 def parse_args():   
     parser = argparse.ArgumentParser(description='SecureWebAudit Tool')
     parser.add_argument('-u','--url', type=str, help='website to analyze') # add ,required=True if you want
+    parser.add_argument('--dorks', action='store_true', help='Dorks analysis')
     parser.add_argument('-g','--group_url', type=str, help='websites to analyze')
     return parser.parse_args()
 
@@ -37,10 +39,13 @@ def run():
         # CSRFAnalyzer(args.url, "GET")
         
         """ tests / Brute force """
-        WebAnalyzer(args.url, "GET")
+        # WebAnalyzer(args.url, "GET")
         
         """ Dorks """
-        # GoogleDorks(args.url, "GET")
+        if args.dorks :
+            GoogleDorks(args.url, "GET")
+            
+        WebServerDetection(args.url)
 
     if args.group_url :
         if Path(args.group_url).is_file():
