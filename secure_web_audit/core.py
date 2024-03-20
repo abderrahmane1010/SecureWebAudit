@@ -9,6 +9,7 @@ from secure_web_audit.webpagecontent_analyzer import WebPageContent
 from .xss_analyzer import XSSAnalyzer
 from .attacks.dorks import *
 from .attacks.webserdetection import *
+from .attacks.path_traversal import *
 from .utils import *
 from pathlib import Path
 import argparse
@@ -44,8 +45,10 @@ def run():
         """ Dorks """
         if args.dorks :
             GoogleDorks(args.url, "GET")
-            
-        WebServerDetection(args.url)
+        
+        """ PATH TRAVERSAL """
+        PathTraversal(args.url)    
+        # WebServerDetection(args.url)
 
     if args.group_url :
         if Path(args.group_url).is_file():
